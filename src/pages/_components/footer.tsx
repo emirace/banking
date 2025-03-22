@@ -3,6 +3,7 @@ import { FaXTwitter } from "react-icons/fa6";
 import { useState } from "react";
 import { FaCheck, FaFacebook, FaInstagram } from "react-icons/fa";
 import { Link } from "react-router";
+import logo from "../../assets/images/logo.png";
 
 export default function Footer() {
   const [sent, setSent] = useState(false);
@@ -31,8 +32,10 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8">
         {/* Logo & Contact Info */}
         <div>
-          {/* <img src={IMAGES.logo} alt="Logo" width={180} height={180} /> */}
-          <div className="font-bold text-xl ">Logo</div>
+          <div className="text-2xl font-bold flex items-center space-x-2">
+            <img src={logo} alt="logo" className="w-auto h-10" />
+            <span className=" ">TransactSphere</span>
+          </div>
           <p className="text-gray-400 mt-4">
             5919 Drive Crossings Pkwy, Kenturky
           </p>
@@ -46,22 +49,17 @@ export default function Footer() {
           <h3 className="text-lg font-semibold">Useful Links</h3>
           <ul className="mt-4 space-y-2 text-gray-400">
             <li>
-              <Link to="#" className="hover:text-black">
+              <Link to="/about" className="hover:text-black">
                 About
               </Link>
             </li>
             <li>
-              <Link to="#" className="hover:text-black">
+              <Link to="/services" className="hover:text-black">
                 Services
               </Link>
             </li>
             <li>
-              <Link to="#" className="hover:text-black">
-                Blog
-              </Link>
-            </li>
-            <li>
-              <Link to="#" className="hover:text-black">
+              <Link to="/contact" className="hover:text-black">
                 Contact
               </Link>
             </li>
@@ -121,7 +119,7 @@ export default function Footer() {
       </div>
 
       <div className="text-center text-gray-500 text-sm mt-10 border-t border-gray-800 pt-4">
-        © 2025 Example. All Rights Reserved
+        © 2025 TransactSphere. All Rights Reserved
       </div>
     </footer>
   );

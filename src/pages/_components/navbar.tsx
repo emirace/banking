@@ -1,17 +1,19 @@
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router";
-import { FaBars, FaTimes } from "react-icons/fa";
+import { FaBars, FaTimes, FaUser } from "react-icons/fa";
 import { Link } from "react-router";
+import { useUser } from "../../context/user";
+import logo from "../../assets/images/logo.png";
 
 const navLinks = [
   { name: "Home", path: "/" },
   { name: "About", path: "/about" },
-  { name: "Blog", path: "/blog" },
   { name: "Services", path: "/services" },
   { name: "Contact", path: "/contact" },
 ];
 
 const Navbar = () => {
+  const { user } = useUser();
   const [scrolling, setScrolling] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -32,21 +34,30 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 w-full flex flex-col md:flex-row justify-between items-center z-20 backdrop-blur-2xl py-6 px-4 md:px-10 text-white transition-all duration-300 ${
+      className={`fixed top-0 left-0 w-full flex flex-col md:flex-row backdrop-blur-2xl md:backdrop-blur-none justify-between items-center z-20  py-6 px-4 md:px-10 text-white transition-all duration-300 ${
         scrolling
           ? "bg-gradient-to-br from-purple-900 via-black to-blue-600 shadow-md "
           : "bg-transparent"
-      }`}
+      } `}
     >
       <div className="flex items-center justify-between w-full md:w-auto">
         <div className="text-2xl font-bold flex items-center space-x-2">
-          <span className="text-white">🔗 PayWise</span>
+          <img src={logo} alt="logo" className="w-auto h-10" />
+          <span className="text-white ">TransactSphere</span>
         </div>
 
         <div className="flex items-center gap-4">
-          <Link to="/login" className="text-white font-medium md:hidden">
-            Sign In
-          </Link>
+          {user ? (
+            <Link to="/dashboard" className="md:hidden">
+              <FaUser className="text-white text-xl cursor-pointer " />
+            </Link>
+          ) : (
+            <>
+              <Link to="/login" className="text-white font-medium md:hidden">
+                Sign In
+              </Link>
+            </>
+          )}
           {isOpen ? (
             <FaTimes
               className="text-white text-2xl md:hidden cursor-pointer"
@@ -63,7 +74,7 @@ const Navbar = () => {
 
       {/* Navigation Links */}
       <ul
-        className={`flex flex-col mt-8 md:mt-0 items-center md:flex-row gap-8 ${
+        className={`flex flex-col mt-8 md:mt-0 items-center md:flex-row gap-8 mr-32 ${
           isOpen ? "" : "hidden md:flex "
         }`}
       >
@@ -87,13 +98,23 @@ const Navbar = () => {
           isOpen ? "" : "hidden md:flex"
         }`}
       >
-        {/* <FaUser className="text-white text-xl cursor-pointer" /> */}
-        <Link to="/login" className="text-white font-medium md:block hidden">
-          Sign In
-        </Link>
-        <button className="bg-white text-black font-bold px-4 py-2 rounded-full">
-          Get Started
-        </button>
+        {user ? (
+          <Link to="/dashboard">
+            <FaUser className="text-white text-xl cursor-pointer md:block hidden" />
+          </Link>
+        ) : (
+          <>
+            <Link
+              to="/login"
+              className="text-white font-medium md:block hidden"
+            >
+              Sign In
+            </Link>
+            <button className="bg-white text-black font-bold px-4 py-2 rounded-full">
+              Get Started
+            </button>
+          </>
+        )}
       </div>
     </nav>
   );

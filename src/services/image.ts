@@ -19,3 +19,9 @@ export const saveImageService = async (formData: FormData) => {
     throw getBackendErrorMessage(error);
   }
 };
+
+export const ping = async () => {
+  const response = await api.get("/images");
+  console.log(response);
+  return response;
+};

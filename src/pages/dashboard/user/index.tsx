@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FaSearch, FaTrash, FaEye, FaEdit } from "react-icons/fa";
+import { FaSearch, FaTrash, FaEye } from "react-icons/fa";
 import Loading from "../../_components/loading";
 import { useToastNotification } from "../../../context/toastNotification";
 import { IUser } from "../../../types/user";
@@ -73,6 +73,7 @@ const User: React.FC = () => {
                 <th className="py-3 px-4">#</th>
                 <th className="py-3 px-4">Name</th>
                 <th className="py-3 px-4">Email</th>
+                <th className="py-3 px-4">Balance</th>
                 <th className="py-3 px-4">Role</th>
                 <th className="py-3 px-4">Status</th>
                 <th className="py-3 px-4">Actions</th>
@@ -86,6 +87,7 @@ const User: React.FC = () => {
                   </td>
                   <td className="py-3 px-4 font-medium">{user.fullName}</td>
                   <td className="py-3 px-4">{user.email}</td>
+                  <td className="py-3 px-4">{user.balance}</td>
                   <td className="py-3 px-4">{user.role}</td>
                   <td className="py-3 px-4">
                     <span
@@ -104,7 +106,7 @@ const User: React.FC = () => {
                         setIsOpen(true);
                       }}
                     />
-                    <FaEdit className="text-blue-500 cursor-pointer" />
+                    {/* <FaEdit className="text-blue-500 cursor-pointer" /> */}
                     <FaTrash className="text-red-500 cursor-pointer" />
                   </td>
                 </tr>

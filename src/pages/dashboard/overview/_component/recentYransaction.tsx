@@ -1,57 +1,25 @@
 import React, { useEffect, useState } from "react";
 import moment from "moment";
+import { getUserTransactions } from "../../../../services/transaction";
 
 const RecentTransactions: React.FC = () => {
   const [transactions, setTransactions] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Simulated fetch function for transactions
   useEffect(() => {
-    setLoading(true);
-    setTimeout(() => {
+    const loadData = async () => {
+      setLoading(true);
       try {
-        const sampleTransactions = [
-          {
-            _id: "1",
-            createdAt: new Date(),
-            type: "Deposit",
-            description: "Salary Payment",
-            amount: 2500,
-            status: "Completed",
-          },
-          {
-            _id: "2",
-            createdAt: new Date(),
-            type: "Withdrawal",
-            description: "ATM Withdrawal",
-            amount: -300,
-            status: "Pending",
-          },
-          {
-            _id: "3",
-            createdAt: new Date(),
-            type: "Transfer",
-            description: "Rent Payment",
-            amount: -1200,
-            status: "Completed",
-          },
-          {
-            _id: "4",
-            createdAt: new Date(),
-            type: "Deposit",
-            description: "Freelance Payment",
-            amount: 600,
-            status: "Completed",
-          },
-        ];
-        setTransactions(sampleTransactions);
+        const res = await getUserTransactions();
+        setTransactions(res);
       } catch (err) {
         setError("Failed to load transactions.");
       } finally {
         setLoading(false);
       }
-    }, 1000);
+    };
+    loadData();
   }, []);
 
   return (
@@ -64,9 +32,6 @@ const RecentTransactions: React.FC = () => {
             <tr className="bg-gray-100">
               <th className="py-2 px-4 text-left whitespace-nowrap">Date</th>
               <th className="py-2 px-4 text-left whitespace-nowrap">Type</th>
-              <th className="py-2 px-4 text-left whitespace-nowrap">
-                Description
-              </th>
               <th className="py-2 px-4 text-left whitespace-nowrap">Amount</th>
               <th className="py-2 px-4 text-left whitespace-nowrap">Status</th>
             </tr>
@@ -99,10 +64,11 @@ const RecentTransactions: React.FC = () => {
                     )}
                   </td>
                   <td className="py-2 px-4">{transaction.type}</td>
-                  <td className="py-2 px-4">{transaction.description}</td>
                   <td
                     className={`py-2 px-4 font-bold ${
-                      transaction.amount > 0 ? "text-green-600" : "text-red-600"
+                      transaction.type === "Deposit"
+                        ? "text-green-600"
+                        : "text-red-600"
                     }`}
                   >
                     ${transaction.amount.toLocaleString()}

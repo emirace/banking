@@ -12,6 +12,10 @@ import User from "./pages/dashboard/user";
 import AdminSettings from "./pages/dashboard/AdminSetting";
 import Profile from "./pages/dashboard/settings";
 import AllTransactions from "./pages/dashboard/allTransaction";
+import AboutUs from "./pages/about";
+import Service from "./pages/services";
+import Contact from "./pages/contact";
+import ProtectedRoute from "./pages/_components/protectedRoute";
 
 function App() {
   return (
@@ -20,16 +24,21 @@ function App() {
       <Routes>
         <Route index element={<Home />} />
         <Route path="/login" element={<Auth />} />
-        <Route path="/dashboard" element={<Dashboard />}>
-          <Route index element={<Overview />} />
-          <Route path="transactions" element={<Transactions />} />
-          <Route path="transfer" element={<Transfer />} />
-          <Route path="deposit" element={<Deposit />} />
-          <Route path="user" element={<User />} />
-          <Route path="user" element={<User />} />
-          <Route path="admin-settings" element={<AdminSettings />} />
-          <Route path="settings" element={<Profile />} />
-          <Route path="all-transactions" element={<AllTransactions />} />
+        <Route path="/about" element={<AboutUs />} />
+        <Route path="/services" element={<Service />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/" element={<ProtectedRoute />}>
+          <Route path="/dashboard" element={<Dashboard />}>
+            <Route index element={<Overview />} />
+            <Route path="transactions" element={<Transactions />} />
+            <Route path="transfer" element={<Transfer />} />
+            <Route path="deposit" element={<Deposit />} />
+            <Route path="user" element={<User />} />
+            <Route path="user" element={<User />} />
+            <Route path="admin-settings" element={<AdminSettings />} />
+            <Route path="settings" element={<Profile />} />
+            <Route path="all-transactions" element={<AllTransactions />} />
+          </Route>
         </Route>
       </Routes>
     </div>

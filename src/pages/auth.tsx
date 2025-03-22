@@ -6,6 +6,7 @@ import { useToastNotification } from "../context/toastNotification";
 import { loginUser, registerUser } from "../services/auth";
 import { useUser } from "../context/user";
 import Loading from "./_components/loading";
+import logo from "../assets/images/logo.png";
 
 const Auth = () => {
   const { addNotification } = useToastNotification();
@@ -87,9 +88,12 @@ const Auth = () => {
       <div className="absolute inset-0 bg-gradient-to-br from-purple-900/50 pt-20 to-black"></div>
       <Link
         to="/"
-        className="absolute top-8 left-8 text-white text-xl font-bold"
+        className="absolute top-8 left-4 md:left-8 text-white text-xl font-bold"
       >
-        LOGO
+        <div className="text-2xl font-bold flex items-center gap-2">
+          <img src={logo} alt="logo" className="w-auto h-10" />
+          <span className="text-white ">TransactSphere</span>
+        </div>
       </Link>
 
       <div className="bg-white/10 backdrop-blur-md border border-white/20 shadow-lg rounded-xl p-10 w-full max-w-md text-white">
@@ -164,7 +168,7 @@ const Auth = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 flex items-center gap-2 text-white p-3 rounded-full font-bold mt-6 hover:bg-blue-700 transition duration-300"
+            className="w-full bg-blue-600 flex items-center justify-center gap-2 text-white p-3 rounded-full font-bold mt-6 hover:bg-blue-700 transition duration-300"
           >
             {loading && <Loading size="sm" />}
             {isLogin ? "Login" : "Sign Up"}

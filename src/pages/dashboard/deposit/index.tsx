@@ -3,7 +3,7 @@ import { FaBitcoin, FaUniversity } from "react-icons/fa";
 import Modal from "../_component/modal";
 import BankTransfer from "./_component/bankTransfer";
 import CryptoPayment from "./_component/cryptoPayment";
-import Transactions from "../transactions";
+import Transactions from "./_component/transaction";
 
 const paymentMethods = [
   {
@@ -84,15 +84,12 @@ const Deposit = () => {
               isOpen={transferModal}
               onClose={() => setTransferModal(false)}
             >
-              <BankTransfer
-                close={() => setTransferModal(false)}
-                amount={2000}
-              />
+              <BankTransfer close={() => setTransferModal(false)} />
             </Modal>
           )}
           {cryptoModal && (
             <Modal isOpen={cryptoModal} onClose={() => setCryptoModal(false)}>
-              <CryptoPayment price={2000} close={() => setCryptoModal(false)} />
+              <CryptoPayment close={() => setCryptoModal(false)} />
             </Modal>
           )}
         </div>

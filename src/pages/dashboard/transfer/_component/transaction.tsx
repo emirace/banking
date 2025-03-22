@@ -33,7 +33,6 @@ const Transactions: React.FC = () => {
             <tr className="bg-gray-100 py-4">
               <th className="py-2 text-left px-4">Date</th>
               <th className="py-2 text-left px-4">Type</th>
-              <th className="py-2 text-left px-4">Description</th>
               <th className="py-2 text-left px-4">Amount</th>
               <th className="py-2 text-left px-4">Status</th>
             </tr>
@@ -66,10 +65,11 @@ const Transactions: React.FC = () => {
                     )}
                   </td>
                   <td className="py-2 px-4">{transaction.type}</td>
-                  <td className="py-2 px-4">{transaction.description}</td>
                   <td
                     className={`py-2 px-4 font-bold ${
-                      transaction.amount > 0 ? "text-green-600" : "text-red-600"
+                      transaction.type === "Deposit"
+                        ? "text-green-600"
+                        : "text-red-600"
                     }`}
                   >
                     ${transaction.amount.toLocaleString()}

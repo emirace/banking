@@ -7,11 +7,9 @@ import Loading from "../../../_components/loading";
 import { deposit } from "../../../../services/transaction";
 import { compressImageUpload } from "../../../../utils/image";
 
-const CryptoPayment: React.FC<{ price?: number; close: () => void }> = ({
-  price,
-  close,
-}) => {
+const CryptoPayment: React.FC<{ close: () => void }> = ({ close }) => {
   const { addNotification } = useToastNotification();
+  const [price, setPrice] = useState(0);
   const [loadingPayment, setLoadingPayment] = useState(false);
   const { settings, fetchSettings } = useSetting();
   const [amount, setAmount] = useState(0);
@@ -112,13 +110,13 @@ const CryptoPayment: React.FC<{ price?: number; close: () => void }> = ({
       <Loading />
     </div>
   ) : (
-    <div className="p-6 w-full">
+    <div className="p-6 w-full h-[90vh] overflow-y-auto">
       {/* Select Crypto Dropdown */}
       <h2 className="text-xl font-semibold text-center">
         Select Cryptocurrency
       </h2>
       <select
-        className="w-full p-2 border rounded-lg mt-2"
+        className="w-full p-2 border rounded-lg mt-2 mb-4"
         value={selectedCrypto?.name || ""}
         onChange={(e) => {
           const crypto = settings.cryptoInfo.find(
@@ -134,9 +132,17 @@ const CryptoPayment: React.FC<{ price?: number; close: () => void }> = ({
           </option>
         ))}
       </select>
+      <label className="block text-sm font-medium">Amount($)</label>
+      <input
+        type="number"
+        name="price"
+        value={`${price}`}
+        onChange={(e) => setPrice(parseFloat(e.target.value))}
+        className="w-full p-2 border rounded"
+      />
 
       {/* Payment Details */}
-      {selectedCrypto && (
+      {selectedCrypto && price > 0 && (
         <>
           <h2 className="text-xl font-semibold text-center mt-4">
             Pay with <span className="capitalize">{selectedCrypto.name}</span>
@@ -212,6 +218,7 @@ const CryptoPayment: React.FC<{ price?: number; close: () => void }> = ({
             ) : (
               <button
                 onClick={() => setMadePayment(true)}
+                disabled={price <= 0}
                 className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold flex items-center justify-center"
               >
                 I have made Payment (${amount})

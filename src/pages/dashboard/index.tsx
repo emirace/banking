@@ -1,13 +1,19 @@
 import { Outlet } from "react-router";
 import Sidebar from "./_component/sidebar";
 import Navbar from "./_component/navbar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { ping } from "../../services/image";
 
 function Dashboard() {
   const [isOpen, setIsOpen] = useState(false);
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
+
+  useEffect(() => {
+    ping();
+  }, []);
+
   return (
     <div>
       <div className="flex h-screen overflow-hidden">

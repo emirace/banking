@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FaUniversity } from "react-icons/fa";
 import Modal from "../_component/modal";
 import BankTransfer from "./_component/banktransfer";
-import Transactions from "../transactions";
+import Transactions from "./_component/transaction";
 
 const paymentMethods = [
   {

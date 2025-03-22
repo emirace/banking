@@ -52,7 +52,7 @@ const UpdateEmail = () => {
         <h2 className="text-2xl font-semibold  ">Update Email</h2>
         <label className="block text-gray-600">
           Your current email address is{" "}
-          <span className="text-primary">{user?.email}</span>
+          <span className="text-blue-600">{user?.email}</span>
         </label>
       </div>
       <div className="p-6">
@@ -71,7 +71,7 @@ const UpdateEmail = () => {
         <div className="flex justify-end">
           <button
             onClick={handleUpdate}
-            className="mt-4 px-6 py-2 bg-primary flex items-center justify-center gap-2 text-white rounded-lg w-full md:w-auto"
+            className="mt-4 px-6 py-2 bg-blue-600 flex items-center justify-center gap-2 text-white rounded-lg w-full md:w-auto"
           >
             {loading && <Loading size="sm" />}Save Email
           </button>

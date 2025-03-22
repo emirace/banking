@@ -6,13 +6,7 @@ import Loading from "../../../_components/loading";
 import { deposit } from "../../../../services/transaction";
 import { compressImageUpload } from "../../../../utils/image";
 
-const BankTransfer = ({
-  amount,
-  close,
-}: {
-  amount: number;
-  close: () => void;
-}) => {
+const BankTransfer = ({ close }: { close: () => void }) => {
   const { addNotification } = useToastNotification();
   const { settings, fetchSettings } = useSetting();
   const [loading, setLoading] = useState(true);
@@ -21,6 +15,7 @@ const BankTransfer = ({
   const [receipt, setReceipt] = useState("");
   const [madePayment, setMadePayment] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [amount, setAmount] = useState(0);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -104,7 +99,7 @@ const BankTransfer = ({
       <Loading />
     </div>
   ) : (
-    <div className="rounded-lg p-6 w-full">
+    <div className="rounded-lg p-6 w-full h-[90vh] overflow-y-auto">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <img src={""} alt="logo" className="h-10" />
@@ -118,6 +113,15 @@ const BankTransfer = ({
       <p className="text-sm text-gray-500 mb-4">
         Make transfer to the account details provided
       </p>
+
+      <label className="block text-sm font-medium">Amount</label>
+      <input
+        type="number"
+        name="price"
+        value={`${amount}`}
+        onChange={(e) => setAmount(parseFloat(e.target.value))}
+        className="w-full p-2 border rounded mb-4"
+      />
 
       {/* Account Details */}
       <div className="bg-gray-50 p-4 rounded-lg mb-4 border">
@@ -190,6 +194,7 @@ const BankTransfer = ({
       ) : (
         <button
           onClick={() => setMadePayment(true)}
+          disabled={amount <= 0}
           className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold flex items-center justify-center"
         >
           I have made Payment (${amount})

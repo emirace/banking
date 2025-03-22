@@ -39,7 +39,7 @@ const ToastNotification: React.FC = () => {
           {notificationsWithAction.map((notification) => (
             <div
               key={notification.id}
-              className="bg-primary text-white rounded-lg p-4 my-2 shadow-md flex gap-4 items-center justify-between"
+              className="bg-blue-600 text-white rounded-lg p-4 my-2 shadow-md flex gap-4 items-center justify-between"
             >
               <FiBell />
               <div className="space-y-4">
@@ -70,7 +70,7 @@ const ToastNotification: React.FC = () => {
               className={`${
                 notification.error
                   ? "bg-red-500 text-white"
-                  : "bg-primary text-white"
+                  : "bg-blue-600 text-white"
               } text-xs text-center sm:text-sm md:text-base rounded-lg py-2 px-4 my-2 shadow-md`}
             >
               {notification.message}

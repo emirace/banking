@@ -14,7 +14,7 @@ export const updateUserProfile = async (profileData: IProfileData) => {
 export const updateUserById = async (id: string, profileData: IProfileData) => {
   const response = await api.patch(`/admin/user`, {
     userId: id,
-    upddates: profileData,
+    updates: profileData,
   });
   return response.data;
 };

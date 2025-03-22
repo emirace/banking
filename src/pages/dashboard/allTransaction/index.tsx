@@ -1,100 +1,146 @@
 import React, { useEffect, useState } from "react";
+import { FaSearch, FaCheck, FaTimes } from "react-icons/fa";
 import moment from "moment";
-import { getAllTransactions } from "../../../services/transaction";
+import Loading from "../../_components/loading";
+import { useToastNotification } from "../../../context/toastNotification";
+import {
+  approveTransaction,
+  declineTransaction,
+  getAllTransactions,
+} from "../../../services/transaction";
 
-const AllTransactions: React.FC = () => {
+const TransactionTable: React.FC = () => {
+  const { addNotification } = useToastNotification();
   const [transactions, setTransactions] = useState<any[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const loadData = async () => {
-      setLoading(true);
+    const loadTransactions = async () => {
       try {
+        setLoading(true);
         const res = await getAllTransactions();
         setTransactions(res);
-      } catch (err) {
-        setError("Failed to load transactions.");
+      } catch (error: any) {
+        addNotification({ message: error, error: true });
       } finally {
         setLoading(false);
       }
     };
-    loadData();
+    loadTransactions();
   }, []);
 
-  return (
-    <div className="w-full p-4 bg-white border rounded-lg">
-      <h2 className="text-2xl font-semibold mb-4">All Transactions</h2>
+  const filteredTransactions = transactions.filter((transaction) =>
+    transaction._id.toLowerCase().includes(search.toLowerCase())
+  );
 
-      <div className="overflow-x-auto w-[calc(100vw-40px)] md:w-full">
-        <table className="w-full border-collapse">
-          <thead>
-            <tr className="bg-gray-100 py-4">
-              <th className="py-2 text-left px-4">Date</th>
-              <th className="py-2 text-left px-4">Type</th>
-              <th className="py-2 text-left px-4">Description</th>
-              <th className="py-2 text-left px-4">Amount</th>
-              <th className="py-2 text-left px-4">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {loading ? (
-              <tr>
-                <td colSpan={5} className="text-center py-4">
-                  Loading...
-                </td>
+  const handleUpdateStatus = async (
+    id: string,
+    status: "approved" | "declined"
+  ) => {
+    try {
+      if (status === "approved") {
+        await approveTransaction(id);
+      } else {
+        await declineTransaction(id, "");
+      }
+
+      addNotification({ message: `Transaction ${status}` });
+
+      const res = await getAllTransactions();
+      setTransactions(res);
+    } catch (error: any) {
+      addNotification({ message: error, error: true });
+    }
+  };
+
+  return (
+    <div className="border rounded-lg p-6 w-full overflow-hidden">
+      <h2 className="text-2xl font-bold mb-4">Transactions</h2>
+      <div className="flex items-center mb-4 gap-4">
+        <div className="relative flex-1">
+          <input
+            type="text"
+            placeholder="Search by Transaction ID"
+            className="border w-full border-gray-300 rounded-md py-2 pl-8 pr-3 focus:outline-none"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <FaSearch className="absolute left-2 top-3 text-gray-500" />
+        </div>
+      </div>
+
+      {loading ? (
+        <Loading />
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="border-collapse w-full whitespace-nowrap">
+            <thead>
+              <tr className="bg-gray-100 text-left text-gray-600">
+                <th className="py-3 px-4">Transaction ID</th>
+                <th className="py-3 px-4">User</th>
+                <th className="py-3 px-4">Amount</th>
+                <th className="py-3 px-4">Status</th>
+                <th className="py-3 px-4">Date</th>
+                <th className="py-3 px-4">Actions</th>
               </tr>
-            ) : error ? (
-              <tr>
-                <td colSpan={5} className="text-center text-red-500 py-4">
-                  {error}
-                </td>
-              </tr>
-            ) : transactions.length === 0 ? (
-              <tr>
-                <td colSpan={5} className="text-center py-4">
-                  No recent transactions
-                </td>
-              </tr>
-            ) : (
-              transactions.map((transaction) => (
-                <tr key={transaction._id} className="border-b">
-                  <td className="py-2 px-4">
-                    <div className="whitespace-nowrap">
-                      {moment(transaction.createdAt).format(
-                        "MMM Do YY - hh:mm a"
-                      )}
-                    </div>
-                  </td>
-                  <td className="py-2 px-4">{transaction.type}</td>
-                  <td className="py-2 px-4">{transaction.description}</td>
-                  <td
-                    className={`py-2 px-4 font-bold ${
-                      transaction.amount > 0 ? "text-green-600" : "text-red-600"
-                    }`}
-                  >
-                    ${transaction.amount.toLocaleString()}
-                  </td>
-                  <td className="py-2 px-4">
-                    <span
-                      className={`px-2 py-1 rounded-md text-white text-sm 
-                      ${
-                        transaction.status === "Completed"
-                          ? "bg-green-500"
-                          : "bg-yellow-500"
-                      }`}
-                    >
+            </thead>
+            <tbody>
+              {filteredTransactions.length > 0 ? (
+                filteredTransactions.map((transaction) => (
+                  <tr key={transaction._id} className="border-b">
+                    <td className="py-3 px-4 font-medium">{transaction._id}</td>
+                    <td className="py-3 px-4">{transaction.user.fullName}</td>
+                    <td className="py-3 px-4">
+                      ${transaction.amount.toFixed(2)}
+                    </td>
+                    <td className="py-3 px-4 capitalize">
                       {transaction.status}
-                    </span>
+                    </td>
+                    <td className="py-3 px-4">
+                      {moment(transaction.createdAt).format(
+                        "MMM D, YYYY HH:mm"
+                      )}
+                    </td>
+                    <td className="py-3 px-4 flex gap-3">
+                      {transaction.status === "Completed" ? (
+                        <div className="font-semibold">Updated</div>
+                      ) : (
+                        <>
+                          <button
+                            className="text-green-500 cursor-pointer"
+                            onClick={() =>
+                              handleUpdateStatus(transaction._id, "approved")
+                            }
+                          >
+                            <FaCheck />
+                          </button>
+                          <button
+                            className="text-red-500 cursor-pointer"
+                            onClick={() =>
+                              handleUpdateStatus(transaction._id, "declined")
+                            }
+                          >
+                            <FaTimes />
+                          </button>
+                        </>
+                      )}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={6} className="py-4 text-center">
+                    No transactions found
                   </td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
+              )}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 };
 
-export default AllTransactions;
+export default TransactionTable;
