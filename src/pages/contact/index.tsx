@@ -6,10 +6,11 @@ import {
   FaTwitter,
   FaLinkedin,
 } from "react-icons/fa";
-import { useSetting } from "../context/setting";
-import Footer from "./_components/footer";
-import Navbar from "./_components/navbar";
-import contactimage from "../assets/images/contact.jpg";
+import { useSetting } from "../../context/setting";
+import Footer from "../_components/footer";
+import Navbar from "../_components/navbar";
+import contactimage from "../../assets/images/contact.jpg";
+import Chat from "./_component/chat";
 
 const Contact = () => {
   const { settings } = useSetting();
@@ -177,6 +178,7 @@ const Contact = () => {
           </form>
         </div>
       </section>
+      <Chat />
 
       <Footer />
     </div>

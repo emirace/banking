@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IUser } from "../../../../types/user";
-import { updateUserById } from "../../../../services/user";
+import { removeCode, updateUserById } from "../../../../services/user";
 import { useToastNotification } from "../../../../context/toastNotification";
 import { debitUser, fundUser } from "../../../../services/admin";
+import Loading from "../../../_components/loading";
 
 interface Props {
   user: IUser;
@@ -18,11 +19,24 @@ const UserDetails = ({ user, onSave }: Props) => {
   const [transactionDate, setTransactionDate] = useState(
     new Date().toISOString()
   );
+  const [formData, setFormData] = useState({
+    code: "",
+    expire: new Date().toISOString(),
+  });
 
   const handleChange = (e: { target: { name: any; value: any } }) => {
     const { name, value } = e.target;
     setEditableUser((prev) => ({ ...prev, [name]: value }));
   };
+
+  const handleChangeForm = (e: { target: { name: any; value: any } }) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  useEffect(() => {
+    setEditableUser(user);
+  }, [user]);
 
   const handleSave = async () => {
     try {
@@ -37,6 +51,38 @@ const UserDetails = ({ user, onSave }: Props) => {
       addNotification({ message: error, error: true });
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleRemoveCode = async () => {
+    try {
+      const res = await removeCode(user._id);
+      setEditableUser(res);
+      onSave();
+      setIsEditing(false);
+      addNotification({ message: "Code removed successfully" });
+    } catch (error: any) {
+      addNotification({ message: error, error: true });
+    }
+  };
+
+  const [addingCode, setAddingCode] = useState(false);
+  const handleAdddCode = async () => {
+    try {
+      if (formData.code.length < 5) {
+        addNotification({ message: "Enter 5 digit number", error: true });
+        return;
+      }
+      setAddingCode(true);
+      const res = await updateUserById(user._id, { transactionCode: formData });
+      setEditableUser(res);
+      onSave();
+      setIsEditing(false);
+      addNotification({ message: "Code added successfully" });
+    } catch (error: any) {
+      addNotification({ message: error, error: true });
+    } finally {
+      setAddingCode(false);
     }
   };
 
@@ -74,7 +120,7 @@ const UserDetails = ({ user, onSave }: Props) => {
   return (
     <div className="p-4 h-[90vh] overflow-y-auto">
       <h2 className="text-2xl font-bold mb-4">User Details</h2>
-      <div className="space-y-3">
+      <div className="space-y-5">
         <div>
           <label className="block text-sm font-medium">Name</label>
           <input
@@ -136,8 +182,8 @@ const UserDetails = ({ user, onSave }: Props) => {
           </select>
         </div>
         <div className="bg-blue-600/10 p-2 rounded-lg  ">
-          <div className="flex items-center gap-3 p-2 rounded-lg justify-center ">
-            <div className="block text-sm font-medium">Balance</div>
+          <div className="flex items-center gap-3  ">
+            <div className="block text font-medium">Balance</div>
             <div className="text-xl">{editableUser.balance}</div>
           </div>
           <div className="flex space-x-2 mb-3">
@@ -178,6 +224,52 @@ const UserDetails = ({ user, onSave }: Props) => {
             >
               Debit User
             </button>
+          </div>
+        </div>
+        <div className="bg-purple-600/10 p-2 rounded-lg  ">
+          <div className=" flex items-center justify-between mb-2">
+            <div className="block font-medium">Transaction Code</div>
+            {editableUser.hasTransactionCode && (
+              <button
+                onClick={handleRemoveCode}
+                className="px-4 py-2 bg-red-500 text-white text-sm rounded"
+              >
+                Clear Previous Code
+              </button>
+            )}
+          </div>
+          <div className="flex space-x-2 mb-3">
+            <div>
+              <div className="block text-sm font-medium">Code (5 digits)</div>
+              <input
+                type="text"
+                value={formData.code}
+                name="code"
+                onChange={handleChangeForm}
+                className="w-full p-2 border rounded"
+                placeholder="Enter code"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium">Expires</label>
+              <input
+                type="datetime-local"
+                value={formData.expire}
+                name="expire"
+                onChange={handleChangeForm}
+                className="w-full p-2 border rounded"
+              />
+            </div>
+          </div>
+          <div className="flex space-x-2">
+            <button
+              onClick={handleAdddCode}
+              disabled={addingCode}
+              className="px-4 py-2 bg-green-500 text-white rounded"
+            >
+              Add
+            </button>
+            {addingCode && <Loading size="sm" />}
           </div>
         </div>
       </div>

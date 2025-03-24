@@ -14,6 +14,7 @@ export interface IUser {
   address: string;
   balance: number;
   accountNumber: string;
+  hasTransactionCode: boolean;
 }
 
 export interface IProfileData {
@@ -25,6 +26,10 @@ export interface IProfileData {
   dob?: string;
   gender?: string;
   address?: string;
+  transactionCode?: {
+    code: string;
+    expire: string;
+  };
 }
 
 export interface IGetAllUsersResponse {

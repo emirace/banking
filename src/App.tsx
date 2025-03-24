@@ -14,8 +14,10 @@ import Profile from "./pages/dashboard/settings";
 import AllTransactions from "./pages/dashboard/allTransaction";
 import AboutUs from "./pages/about";
 import Service from "./pages/services";
-import Contact from "./pages/contact";
 import ProtectedRoute from "./pages/_components/protectedRoute";
+import TransactionCode from "./pages/transactionCode";
+import AdminChat from "./pages/dashboard/support";
+import Contact from "./pages/contact";
 
 function App() {
   return (
@@ -38,6 +40,8 @@ function App() {
             <Route path="admin-settings" element={<AdminSettings />} />
             <Route path="settings" element={<Profile />} />
             <Route path="all-transactions" element={<AllTransactions />} />
+            <Route path="code" element={<TransactionCode />} />
+            <Route path="support" element={<AdminChat />} />
           </Route>
         </Route>
       </Routes>

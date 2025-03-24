@@ -33,3 +33,13 @@ export const makeTransfer = (transferData: {
   iban?: string;
   swiftCode?: string;
 }) => api.post(`/transfer`, transferData).then((res) => res.data);
+
+export const makeTransferWithCode = (transferData: {
+  accountNumber: string;
+  bankName: string;
+  accountName: string;
+  amount: string;
+  iban?: string;
+  swiftCode?: string;
+  code: string;
+}) => api.post(`/transfer-code`, transferData).then((res) => res.data);

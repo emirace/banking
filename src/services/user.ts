@@ -19,6 +19,13 @@ export const updateUserById = async (id: string, profileData: IProfileData) => {
   return response.data;
 };
 
+export const removeCode = async (id: string) => {
+  const response = await api.patch(`/admin/remove-code`, {
+    userId: id,
+  });
+  return response.data;
+};
+
 export const fetchAllUsers = async (data?: { search?: string }) => {
   try {
     const response = await api.get("/users/all", {
@@ -27,6 +34,18 @@ export const fetchAllUsers = async (data?: { search?: string }) => {
     return response.data;
   } catch (error) {
     console.error("Error fetching all users:", error);
+    throw error;
+  }
+};
+
+export const createTransactionCode = async (data: {
+  transactionCode: string;
+}) => {
+  try {
+    await api.post<string>("/users/create-transaction-code", data);
+    return true;
+  } catch (error) {
+    console.error("Error registering user:", error);
     throw error;
   }
 };

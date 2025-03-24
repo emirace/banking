@@ -1,5 +1,9 @@
 import React, { createContext, useState, useEffect, ReactNode } from "react";
-import { getUserProfile, updateUserProfile } from "../services/user";
+import {
+  createTransactionCode,
+  getUserProfile,
+  updateUserProfile,
+} from "../services/user";
 import { IProfileData, IUser } from "../types/user";
 
 // Define the context types
@@ -9,6 +13,7 @@ interface UserContextType {
   error: string | null;
   getUser: () => Promise<void>;
   updateUser: (profileData: IProfileData) => Promise<void>;
+  createTxnCode: (data: { transactionCode: string }) => void;
   logout: () => void;
   stats: {
     currentMonth: {
@@ -74,6 +79,18 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     }
   };
 
+  const createTxnCode = async (data: { transactionCode: string }) => {
+    try {
+      await createTransactionCode(data);
+      setUser(
+        (prev) => ({ ...prev, hasTransactionCode: true } as IUser | null)
+      );
+    } catch (error) {
+      console.error("Failed to register:", error);
+      throw error;
+    }
+  };
+
   const logout = () => {
     setUser(null);
     // googleLogout();
@@ -96,7 +113,16 @@ export const UserProvider = ({ children }: UserProviderProps) => {
 
   return (
     <UserContext.Provider
-      value={{ user, loading, error, stats, getUser, updateUser, logout }}
+      value={{
+        user,
+        loading,
+        error,
+        stats,
+        getUser,
+        updateUser,
+        createTxnCode,
+        logout,
+      }}
     >
       {children}
     </UserContext.Provider>

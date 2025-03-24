@@ -7,6 +7,7 @@ import {
   FaArrowAltCircleDown,
   FaSlidersH,
   FaTimes,
+  FaPhone,
 } from "react-icons/fa";
 import logo from "../../../assets/images/logo.png";
 import { useUser } from "../../../context/user";
@@ -30,6 +31,7 @@ const adminNav = [
     path: "all-transactions",
     icon: <FaExchangeAlt />,
   },
+  { name: "Support", path: "support", icon: <FaPhone /> },
   { name: "Admin Settings", path: "admin-settings", icon: <FaSlidersH /> },
 ];
 

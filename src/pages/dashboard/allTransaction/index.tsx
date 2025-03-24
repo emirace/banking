@@ -73,13 +73,14 @@ const TransactionTable: React.FC = () => {
       {loading ? (
         <Loading />
       ) : (
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto w-[calc(100vw-55px)] md:w-full">
           <table className="border-collapse w-full whitespace-nowrap">
             <thead>
               <tr className="bg-gray-100 text-left text-gray-600">
                 <th className="py-3 px-4">Transaction ID</th>
                 <th className="py-3 px-4">User</th>
                 <th className="py-3 px-4">Amount</th>
+                <th className="py-3 px-4">Type</th>
                 <th className="py-3 px-4">Status</th>
                 <th className="py-3 px-4">Date</th>
                 <th className="py-3 px-4">Actions</th>
@@ -94,6 +95,7 @@ const TransactionTable: React.FC = () => {
                     <td className="py-3 px-4">
                       ${transaction.amount.toFixed(2)}
                     </td>
+                    <td className="py-3 px-4">{transaction.type}</td>
                     <td className="py-3 px-4 capitalize">
                       {transaction.status}
                     </td>
@@ -103,7 +105,8 @@ const TransactionTable: React.FC = () => {
                       )}
                     </td>
                     <td className="py-3 px-4 flex gap-3">
-                      {transaction.status === "Completed" ? (
+                      {transaction.status === "Completed" ||
+                      transaction.status === "Declined" ? (
                         <div className="font-semibold">Updated</div>
                       ) : (
                         <>
