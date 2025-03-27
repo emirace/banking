@@ -18,6 +18,7 @@ import ProtectedRoute from "./pages/_components/protectedRoute";
 import TransactionCode from "./pages/transactionCode";
 import AdminChat from "./pages/dashboard/support";
 import Contact from "./pages/contact";
+import UserSupport from "./pages/dashboard/userSupport";
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
             <Route path="all-transactions" element={<AllTransactions />} />
             <Route path="code" element={<TransactionCode />} />
             <Route path="support" element={<AdminChat />} />
+            <Route path="support-user" element={<UserSupport />} />
           </Route>
         </Route>
       </Routes>

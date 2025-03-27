@@ -17,6 +17,7 @@ const navItems = [
   { name: "Transactions", path: "transactions", icon: <FaExchangeAlt /> },
   { name: "Transfer", path: "transfer", icon: <FaArrowAltCircleRight /> },
   { name: "Deposit", path: "deposit", icon: <FaArrowAltCircleDown /> },
+  { name: "Support", path: "support-user", icon: <FaPhone /> },
   { name: "Settings", path: "settings", icon: <FaSlidersH /> },
 ];
 
@@ -31,7 +32,7 @@ const adminNav = [
     path: "all-transactions",
     icon: <FaExchangeAlt />,
   },
-  { name: "Support", path: "support", icon: <FaPhone /> },
+  { name: "Admin Support", path: "support", icon: <FaPhone /> },
   { name: "Admin Settings", path: "admin-settings", icon: <FaSlidersH /> },
 ];
 

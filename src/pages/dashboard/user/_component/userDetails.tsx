@@ -16,6 +16,7 @@ const UserDetails = ({ user, onSave }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [amount, setAmount] = useState("");
+  const [codeDescription, setCodeDescription] = useState("");
   const [transactionDate, setTransactionDate] = useState(
     new Date().toISOString()
   );
@@ -74,7 +75,10 @@ const UserDetails = ({ user, onSave }: Props) => {
         return;
       }
       setAddingCode(true);
-      const res = await updateUserById(user._id, { transactionCode: formData });
+      const res = await updateUserById(user._id, {
+        transactionCode: formData,
+        codeDescription,
+      });
       setEditableUser(res);
       onSave();
       setIsEditing(false);
@@ -260,6 +264,18 @@ const UserDetails = ({ user, onSave }: Props) => {
                 className="w-full p-2 border rounded"
               />
             </div>
+          </div>
+
+          <div className="mb-2">
+            <div className="block text-sm font-medium">Description</div>
+            <input
+              type="text"
+              value={codeDescription}
+              name="code"
+              onChange={(e) => setCodeDescription(e.target.value)}
+              className="w-full p-2 border rounded"
+              placeholder="Enter code description"
+            />
           </div>
           <div className="flex space-x-2">
             <button

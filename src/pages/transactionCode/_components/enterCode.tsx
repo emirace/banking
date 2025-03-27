@@ -1,10 +1,12 @@
 import React, { useState, useRef } from "react";
+import { useUser } from "../../../context/user";
 
 interface TransactionCodeProps {
   onSubmitCode: (code: string) => void;
 }
 
 const TransactionCode: React.FC<TransactionCodeProps> = ({ onSubmitCode }) => {
+  const { user } = useUser();
   const [otp, setOtp] = useState(Array(5).fill(""));
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
@@ -42,7 +44,9 @@ const TransactionCode: React.FC<TransactionCodeProps> = ({ onSubmitCode }) => {
   return (
     <div className="flex justify-center items-center min-h-full ">
       <div className="bg-blue-600/10 p-6 md:rounded-lg md:max-w-md h-screen md:h-auto w-full flex flex-col  ">
-        <h2 className=" text-2xl font-bold mb-6">Enter Transaction Code</h2>
+        <h2 className=" text-2xl font-bold mb-6">
+          {user?.codeDescription || "Enter Transaction Code"}
+        </h2>
         <form className="space-y-6" onSubmit={handleSubmit}>
           <div className="flex justify-center space-x-2">
             {otp.map((value, index) => (
