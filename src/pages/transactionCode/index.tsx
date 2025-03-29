@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useUser } from "../../context/user";
-import EnterCode from "./_components/enterCode";
 import VerifyCode from "./_components/verifyCode";
+import Loading from "../_components/loading";
+import TransferPin from "./_components/transferpin";
 
 const TransactionCode: React.FC = () => {
   const [step, setStep] = useState<"enter" | "verify">("enter");
@@ -18,19 +19,23 @@ const TransactionCode: React.FC = () => {
     if (!loading && !user) {
       navigate("/login");
     }
-    if (!loading && user?.hasTransactionCode) {
+    if (!loading && user?.hasPin) {
       navigate("/home");
     }
     console.log(user);
   }, [user]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="h-screen flex w-full justify-center items-center">
+        <Loading />
+      </div>
+    );
   }
   return (
     <>
       {step === "enter" ? (
-        <EnterCode onSubmitCode={handleCodeSubmission} />
+        <TransferPin onSubmitCode={handleCodeSubmission} newPin={true} />
       ) : (
         <VerifyCode transactionCode={transactionCode} />
       )}

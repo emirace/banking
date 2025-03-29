@@ -1,9 +1,14 @@
 import { useEffect, useState } from "react";
 import { IUser } from "../../../../types/user";
-import { removeCode, updateUserById } from "../../../../services/user";
+import {
+  removeCode,
+  resetPin,
+  updateUserById,
+} from "../../../../services/user";
 import { useToastNotification } from "../../../../context/toastNotification";
 import { debitUser, fundUser } from "../../../../services/admin";
 import Loading from "../../../_components/loading";
+import { FaLock } from "react-icons/fa";
 
 interface Props {
   user: IUser;
@@ -64,6 +69,22 @@ const UserDetails = ({ user, onSave }: Props) => {
       addNotification({ message: "Code removed successfully" });
     } catch (error: any) {
       addNotification({ message: error, error: true });
+    }
+  };
+
+  const [reseting, setReseting] = useState(false);
+  const handleResetPin = async () => {
+    try {
+      setReseting(true);
+      const res = await resetPin(user._id);
+      setEditableUser(res);
+      onSave();
+      setIsEditing(false);
+      addNotification({ message: "Pin Reset successfully" });
+    } catch (error: any) {
+      addNotification({ message: error, error: true });
+    } finally {
+      setReseting(false);
     }
   };
 
@@ -288,6 +309,15 @@ const UserDetails = ({ user, onSave }: Props) => {
             {addingCode && <Loading size="sm" />}
           </div>
         </div>
+
+        <button
+          onClick={handleResetPin}
+          disabled={reseting}
+          className="flex items-center gap-2 px-4 py-2 bg-black text-white rounded-full"
+        >
+          <FaLock />
+          {reseting ? "Reseting..." : "Reset Pin"}
+        </button>
       </div>
       <div className="mt-4 flex justify-end space-x-2">
         {isEditing ? (

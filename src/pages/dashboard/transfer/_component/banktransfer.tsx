@@ -7,6 +7,7 @@ import {
 } from "../../../../services/transaction";
 import { useToastNotification } from "../../../../context/toastNotification";
 import TransactionCode from "../../../transactionCode/_components/enterCode";
+import TransferPin from "../../../transactionCode/_components/transferpin";
 
 const BankTransfer = () => {
   const { addNotification } = useToastNotification();
@@ -17,10 +18,12 @@ const BankTransfer = () => {
     amount: "",
     iban: "",
     swiftCode: "",
+    code: "",
   });
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [step, setStep] = useState("form");
+  const [enterPin, setEnterPin] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -44,6 +47,27 @@ const BankTransfer = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const newErrors = validateForm();
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
+    setEnterPin(true);
+  };
+
+  const handleSubmitWithCode = async (code: string) => {
+    const newErrors = validateForm();
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
+    setFormData({ ...formData, code });
+    setEnterPin(true);
+  };
+
+  const handleSubmitWithPin = async (pin: string) => {
     try {
       const newErrors = validateForm();
       if (Object.keys(newErrors).length > 0) {
@@ -52,7 +76,12 @@ const BankTransfer = () => {
       }
 
       setLoading(true);
-      await makeTransfer(formData);
+      setEnterPin(false);
+      if (formData.code) {
+        await makeTransferWithCode({ ...formData, pin });
+      } else {
+        await makeTransfer({ ...formData, pin });
+      }
       setStep("success");
     } catch (error: any) {
       if (error === "Require code") {
@@ -60,22 +89,8 @@ const BankTransfer = () => {
       } else {
         addNotification({ message: error, error: true });
       }
-    }
-  };
-
-  const handleSubmitWithCode = async (code: string) => {
-    try {
-      const newErrors = validateForm();
-      if (Object.keys(newErrors).length > 0) {
-        setErrors(newErrors);
-        return;
-      }
-
-      setLoading(true);
-      await makeTransferWithCode({ ...formData, code });
-      setStep("success");
-    } catch (error: any) {
-      addNotification({ message: error, error: true });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -251,6 +266,13 @@ const BankTransfer = () => {
       </p>
 
       {render()}
+      {enterPin && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-lg  z-50 shadow-lg relative">
+            <TransferPin onSubmitCode={(pin) => handleSubmitWithPin(pin)} />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

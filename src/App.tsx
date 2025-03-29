@@ -31,6 +31,7 @@ function App() {
         <Route path="/services" element={<Service />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/" element={<ProtectedRoute />}>
+          <Route path="/code" element={<TransactionCode />} />
           <Route path="/dashboard" element={<Dashboard />}>
             <Route index element={<Overview />} />
             <Route path="transactions" element={<Transactions />} />
@@ -41,7 +42,6 @@ function App() {
             <Route path="admin-settings" element={<AdminSettings />} />
             <Route path="settings" element={<Profile />} />
             <Route path="all-transactions" element={<AllTransactions />} />
-            <Route path="code" element={<TransactionCode />} />
             <Route path="support" element={<AdminChat />} />
             <Route path="support-user" element={<UserSupport />} />
           </Route>

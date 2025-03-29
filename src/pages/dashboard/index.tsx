@@ -3,8 +3,12 @@ import Sidebar from "./_component/sidebar";
 import Navbar from "./_component/navbar";
 import { useEffect, useState } from "react";
 import { ping } from "../../services/image";
+import { useUser } from "../../context/user";
+import { useNavigate } from "react-router";
 
 function Dashboard() {
+  const { user } = useUser();
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -13,6 +17,12 @@ function Dashboard() {
   useEffect(() => {
     ping();
   }, []);
+
+  useEffect(() => {
+    if (!user?.hasPin) {
+      navigate("/code");
+    }
+  }, [user]);
 
   return (
     <div>

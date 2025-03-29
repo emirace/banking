@@ -26,6 +26,13 @@ export const removeCode = async (id: string) => {
   return response.data;
 };
 
+export const resetPin = async (id: string) => {
+  const response = await api.post(`/admin/reset-pin`, {
+    userId: id,
+  });
+  return response.data;
+};
+
 export const fetchAllUsers = async (data?: { search?: string }) => {
   try {
     const response = await api.get("/users/all", {

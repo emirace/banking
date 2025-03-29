@@ -82,9 +82,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   const createTxnCode = async (data: { transactionCode: string }) => {
     try {
       await createTransactionCode(data);
-      setUser(
-        (prev) => ({ ...prev, hasTransactionCode: true } as IUser | null)
-      );
+      setUser((prev) => ({ ...prev, hasPin: true } as IUser | null));
     } catch (error) {
       console.error("Failed to register:", error);
       throw error;
