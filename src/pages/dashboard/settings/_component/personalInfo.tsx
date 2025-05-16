@@ -42,7 +42,11 @@ const PersonalInfoForm = () => {
       const updateData: Record<string, any> = {
         fullName: formData.fullName,
         email: formData.email,
-        phone: formData.mobile,
+        mobile: formData.mobile,
+        address: formData.address,
+        gender: formData.gender,
+        dob: formData.dob,
+        nationality: formData.nationality,
       };
 
       // Send update to backend
