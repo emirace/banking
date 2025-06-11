@@ -84,29 +84,30 @@ export default function AdminChat() {
       <div className="w-2/3 p-4">
         {selectedUser ? (
           <>
-            <div className="h-60 overflow-y-auto">
+            <div className="h-[70vh] overflow-y-auto">
               {messages.map((msg) => (
                 <div
                   key={msg._id}
-                  className={
+                  className={`${
                     msg.isAdmin ? "text-right text-blue-500" : "text-left"
-                  }
+                  } mb-4`}
                 >
-                  <p className="p-2 rounded bg-gray-200 inline-block">
+                  <p className="p-2 rounded bg-gray-200 inline-block whitespace-pre-line">
                     {msg.message}
                   </p>
                 </div>
               ))}
             </div>
             <div className="flex mt-2">
-              <input
-                className="flex-1 border p-2 rounded"
+              <textarea
+                className="flex-1 border p-2 rounded resize-none"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 placeholder="Type a message..."
+                rows={3}
               />
               <button
-                className="ml-2 bg-blue-500 text-white p-2 rounded"
+                className="ml-2 bg-blue-500 max-h-14 text-white p-2 rounded"
                 onClick={handleSendMessage}
               >
                 Send

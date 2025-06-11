@@ -3,7 +3,7 @@ import {
   FaRegCopy,
   FaArrowUp,
   FaArrowRight,
-  FaArrowDown,
+  // FaArrowDown,
 } from "react-icons/fa";
 import { useState } from "react";
 import { Link } from "react-router";
@@ -68,13 +68,13 @@ const BalanceCard = () => {
           <FaArrowRight className="mr-2" />
           Transfer
         </Link>
-        <Link
+        {/* <Link
           to="deposit"
           className="flex-1 bg-gray-100 text-gray-800 py-3 rounded-lg flex items-center justify-center text-lg font-medium"
         >
           <FaArrowDown className="mr-2" />
           Received
-        </Link>
+        </Link> */}
       </div>
     </div>
   );

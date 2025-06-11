@@ -4,7 +4,7 @@ import {
   FaExchangeAlt,
   FaUserFriends,
   FaArrowAltCircleRight,
-  FaArrowAltCircleDown,
+  // FaArrowAltCircleDown,
   FaSlidersH,
   FaTimes,
   FaPhone,
@@ -16,7 +16,7 @@ const navItems = [
   { name: "Dashboard", path: "/dashboard", icon: <FaTh /> },
   { name: "Transactions", path: "transactions", icon: <FaExchangeAlt /> },
   { name: "Transfer", path: "transfer", icon: <FaArrowAltCircleRight /> },
-  { name: "Deposit", path: "deposit", icon: <FaArrowAltCircleDown /> },
+  // { name: "Deposit", path: "deposit", icon: <FaArrowAltCircleDown /> },
   { name: "Support", path: "support-user", icon: <FaPhone /> },
   { name: "Settings", path: "settings", icon: <FaSlidersH /> },
 ];
