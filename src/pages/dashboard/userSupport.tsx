@@ -48,31 +48,35 @@ export default function UserSupport() {
       </div>
 
       {/* Chat Messages */}
-      <div className="flex-1 overflow-y-auto mt-2">
-        {messages.map((msg) => (
-          <div
-            key={msg._id}
-            className={`p-2 ${
-              msg.isAdmin ? "text-right text-blue-500" : "text-left"
-            }`}
-          >
-            <p className="p-2 rounded bg-gray-200 inline-block">
-              {msg.message}
-            </p>
-          </div>
-        ))}
+      <div className="flex-1 overflow-y-auto mt-2 flex flex-col-reverse ">
+        {messages
+          .slice()
+          .reverse()
+          .map((msg) => (
+            <div
+              key={msg._id}
+              className={`p-2 ${
+                msg.isAdmin ? "text-right text-blue-500" : "text-left"
+              }`}
+            >
+              <p className="p-2 rounded bg-gray-200 inline-block whitespace-pre-line">
+                {msg.message}
+              </p>
+            </div>
+          ))}
       </div>
 
       {/* Input & Send Button */}
       <div className="flex mt-2">
-        <input
-          className="flex-1 border p-2 rounded"
+        <textarea
+          className="flex-1 border p-2 rounded resize-none"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Type a message..."
+          rows={3}
         />
         <button
-          className="ml-2 bg-blue-500 text-white p-2 rounded"
+          className="ml-2 max-h-14 bg-blue-500 text-white p-2 rounded"
           onClick={handleSendMessage}
         >
           Send

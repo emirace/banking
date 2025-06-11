@@ -84,19 +84,22 @@ export default function AdminChat() {
       <div className="w-2/3 p-4">
         {selectedUser ? (
           <>
-            <div className="h-[70vh] overflow-y-auto">
-              {messages.map((msg) => (
-                <div
-                  key={msg._id}
-                  className={`${
-                    msg.isAdmin ? "text-right text-blue-500" : "text-left"
-                  } mb-4`}
-                >
-                  <p className="p-2 rounded bg-gray-200 inline-block whitespace-pre-line">
-                    {msg.message}
-                  </p>
-                </div>
-              ))}
+            <div className="h-[70vh] overflow-y-auto flex flex-col-reverse ">
+              {messages
+                .slice()
+                .reverse()
+                .map((msg) => (
+                  <div
+                    key={msg._id}
+                    className={`${
+                      msg.isAdmin ? "text-right text-blue-500" : "text-left"
+                    } mb-4`}
+                  >
+                    <p className="p-2 rounded bg-gray-200 inline-block whitespace-pre-line">
+                      {msg.message}
+                    </p>
+                  </div>
+                ))}
             </div>
             <div className="flex mt-2">
               <textarea
