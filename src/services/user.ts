@@ -58,10 +58,6 @@ export const createTransactionCode = async (data: {
 };
 
 export const deleteUser = async (id: string) => {
-  const response = await api.delete(`/admin/user`, {
-    data: {
-      userId: id,
-    },
-  });
+  const response = await api.delete(`/admin/user/${id}`);
   return response.data;
 };

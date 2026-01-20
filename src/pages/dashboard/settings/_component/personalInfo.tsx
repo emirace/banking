@@ -142,6 +142,7 @@ const PersonalInfoForm = () => {
               value={formData.mobile}
               onChange={handleChange}
               className="w-full p-2 border rounded-lg"
+              disabled
             />
           </div>
           <div>
@@ -176,6 +177,7 @@ const PersonalInfoForm = () => {
                   value="male"
                   checked={formData.gender === "male"}
                   onChange={handleChange}
+                  disabled
                 />
                 Male
               </label>
@@ -186,6 +188,7 @@ const PersonalInfoForm = () => {
                   value="female"
                   checked={formData.gender === "female"}
                   onChange={handleChange}
+                  disabled
                 />
                 Female
               </label>
@@ -196,6 +199,7 @@ const PersonalInfoForm = () => {
                   value="others"
                   checked={formData.gender === "others"}
                   onChange={handleChange}
+                  disabled
                 />
                 Others
               </label>
@@ -210,6 +214,7 @@ const PersonalInfoForm = () => {
             onChange={handleChange}
             className="w-full p-2 border rounded-lg"
             rows={3}
+            disabled
           ></textarea>
         </div>
         <div className="flex justify-end">
