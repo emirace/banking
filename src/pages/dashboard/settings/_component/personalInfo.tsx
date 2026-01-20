@@ -120,6 +120,7 @@ const PersonalInfoForm = () => {
               value={formData.fullName}
               onChange={handleChange}
               className="w-full p-2 border rounded-lg"
+              disabled
             />
           </div>
           <div>
@@ -130,6 +131,7 @@ const PersonalInfoForm = () => {
               value={formData.email}
               onChange={handleChange}
               className="w-full p-2 border rounded-lg"
+              disabled
             />
           </div>
           <div>
@@ -150,6 +152,7 @@ const PersonalInfoForm = () => {
                 setFormData({ ...formData, nationality: value })
               }
               value={formData.nationality}
+              disabled
             />
           </div>
           <div>
@@ -160,6 +163,7 @@ const PersonalInfoForm = () => {
               value={formData.dob}
               onChange={handleChange}
               className="w-full p-2 border rounded-lg"
+              disabled
             />
           </div>
           <div>

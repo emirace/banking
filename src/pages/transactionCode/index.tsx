@@ -20,9 +20,8 @@ const TransactionCode: React.FC = () => {
       navigate("/login");
     }
     if (!loading && user?.hasPin) {
-      navigate("/home");
+      navigate("/dashboard");
     }
-    console.log(user);
   }, [user]);
 
   if (loading) {

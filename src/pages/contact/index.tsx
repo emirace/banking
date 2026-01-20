@@ -47,13 +47,7 @@ const Contact = () => {
                 href="tel:+123456789"
                 className="px-3 py-2 bg-purple-100 text-purple-600 rounded-lg text-sm"
               >
-                +(222) 6543 677
-              </a>
-              <a
-                href="tel:+2224567586"
-                className="px-3 py-2 bg-gray-100 text-gray-900 rounded-lg text-sm"
-              >
-                +(222) 4567 586
+                +1 (786) 312-1096
               </a>
             </div>
           </div>

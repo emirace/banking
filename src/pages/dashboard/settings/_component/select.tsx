@@ -12,6 +12,7 @@ interface Props {
   value: string;
   placeholder?: string;
   bg?: string;
+  disabled?: boolean;
 }
 
 const Select: React.FC<Props> = ({
@@ -20,6 +21,7 @@ const Select: React.FC<Props> = ({
   bg,
   onChange,
   value,
+  disabled,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<Option | null>(null);
@@ -90,7 +92,7 @@ const Select: React.FC<Props> = ({
       </button>
 
       {/* Dropdown Menu */}
-      {isOpen && (
+      {isOpen && !disabled && (
         <div
           className={`absolute w-full bg-white  z-10 ${
             position === "top" && isOpen

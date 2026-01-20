@@ -66,6 +66,7 @@ const UpdateEmail = () => {
             value={formData.email}
             onChange={handleChange}
             className="w-full p-2 border rounded-lg"
+            disabled
           />
         </div>
         <div className="flex justify-end">

@@ -39,9 +39,8 @@ export default function Footer() {
           <p className="text-gray-400 mt-4">
             5919 Drive Crossings Pkwy, Kenturky
           </p>
-          <p className="mt-2 font-semibold">info@example.com</p>
-          <p className="text-purple-500 mt-2 font-bold">+1234567890</p>
-          <p className="text-purple-500 mt-2 font-bold">+1234567890</p>
+          <p className="mt-2 font-semibold">transactsphere@gmail.com</p>
+          <p className="text-purple-500 mt-2 font-bold">+1 (786) 312-1096</p>
         </div>
 
         {/* Useful Links */}

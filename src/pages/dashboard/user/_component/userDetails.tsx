@@ -4,6 +4,7 @@ import {
   removeCode,
   resetPin,
   updateUserById,
+  deleteUser,
 } from "../../../../services/user";
 import { useToastNotification } from "../../../../context/toastNotification";
 import { debitUser, fundUser } from "../../../../services/admin";
@@ -23,7 +24,7 @@ const UserDetails = ({ user, onSave }: Props) => {
   const [amount, setAmount] = useState("");
   const [codeDescription, setCodeDescription] = useState("");
   const [transactionDate, setTransactionDate] = useState(
-    new Date().toISOString()
+    new Date().toISOString(),
   );
   const [formData, setFormData] = useState({
     code: "",
@@ -139,6 +140,21 @@ const UserDetails = ({ user, onSave }: Props) => {
       addNotification({ message: error, error: true });
     } finally {
       setLoading(false);
+    }
+  };
+
+  const [deleting, setDeleting] = useState(false);
+  const handleDeleteUser = async () => {
+    if (!window.confirm("Are you sure you want to delete this user?")) return;
+    try {
+      setDeleting(true);
+      await deleteUser(user._id);
+      addNotification({ message: "User deleted successfully" });
+      onSave();
+    } catch (error: any) {
+      addNotification({ message: error, error: true });
+    } finally {
+      setDeleting(false);
     }
   };
 
@@ -337,12 +353,21 @@ const UserDetails = ({ user, onSave }: Props) => {
             </button>
           </>
         ) : (
-          <button
-            onClick={() => setIsEditing(true)}
-            className="px-4 py-2 bg-blue-600 text-white rounded"
-          >
-            Edit
-          </button>
+          <div className="flex gap-2">
+            <button
+              onClick={handleDeleteUser}
+              disabled={deleting}
+              className="px-4 py-2 bg-red-600 text-white rounded"
+            >
+              {deleting ? "Deleting..." : "Delete User"}
+            </button>
+            <button
+              onClick={() => setIsEditing(true)}
+              className="px-4 py-2 bg-blue-600 text-white rounded"
+            >
+              Edit
+            </button>
+          </div>
         )}
       </div>
     </div>
