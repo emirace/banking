@@ -7,7 +7,7 @@ import { baseURL } from "../../../../services/api";
 import Select from "./select";
 
 const PersonalInfoForm = () => {
-  const { user, updateUser } = useUser();
+  const { user } = useUser();
   const { addNotification } = useToastNotification();
   const [formData, setFormData] = useState({
     fullName: user?.fullName || "",
@@ -19,49 +19,49 @@ const PersonalInfoForm = () => {
     address: user?.address || "",
     image: user?.image || "",
   });
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
 
   const handleChange = (e: { target: { name: any; value: any } }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleUpdate = async () => {
-    if (!formData.fullName.trim() || !formData.email.trim()) {
-      addNotification({
-        message: "Name and email are required.",
-        error: true,
-      });
-      return;
-    }
+  // const handleUpdate = async () => {
+  //   if (!formData.fullName.trim() || !formData.email.trim()) {
+  //     addNotification({
+  //       message: "Name and email are required.",
+  //       error: true,
+  //     });
+  //     return;
+  //   }
 
-    try {
-      setLoading(true);
+  //   try {
+  //     setLoading(true);
 
-      // Prepare data for update
-      const updateData: Record<string, any> = {
-        fullName: formData.fullName,
-        email: formData.email,
-        mobile: formData.mobile,
-        address: formData.address,
-        gender: formData.gender,
-        dob: formData.dob,
-        nationality: formData.nationality,
-      };
+  //     // Prepare data for update
+  //     const updateData: Record<string, any> = {
+  //       fullName: formData.fullName,
+  //       email: formData.email,
+  //       mobile: formData.mobile,
+  //       address: formData.address,
+  //       gender: formData.gender,
+  //       dob: formData.dob,
+  //       nationality: formData.nationality,
+  //     };
 
-      // Send update to backend
-      await updateUser(updateData);
+  //     // Send update to backend
+  //     await updateUser(updateData);
 
-      addNotification({ message: "Profile updated successfully!" });
-    } catch (error: any) {
-      addNotification({
-        message: error || "An error occurred while updating your profile.",
-        error: true,
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
+  //     addNotification({ message: "Profile updated successfully!" });
+  //   } catch (error: any) {
+  //     addNotification({
+  //       message: error || "An error occurred while updating your profile.",
+  //       error: true,
+  //     });
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   const handleImageUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     try {
@@ -217,14 +217,14 @@ const PersonalInfoForm = () => {
             disabled
           ></textarea>
         </div>
-        <div className="flex justify-end">
+        {/* <div className="flex justify-end">
           <button
             onClick={handleUpdate}
             className="mt-4 px-6 py-2 bg-blue-600 flex items-center gap-2 text-white rounded-lg w-full md:w-auto"
           >
             {loading && <Loading size="sm" />}Save Changes
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   );
